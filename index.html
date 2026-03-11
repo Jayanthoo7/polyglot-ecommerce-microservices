@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift E-Commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5; /* Modern Indigo */
+            --primary-hover: #4338ca;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); margin: 0; color: var(--text-main); }
+        
+        /* --- LOGIN PAGE STYLES --- */
+        #login-page { height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); }
+        .login-card { background: var(--card-bg); padding: 40px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 320px; text-align: center; }
+        .login-card h2 { margin-top: 0; font-weight: 800; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; color: var(--text-muted); }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; font-family: 'Inter'; }
+        
+        /* --- STORE PAGE STYLES --- */
+        #store-page { display: none; /* Hidden until logged in */ max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Navbar */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 30px; }
+        header h1 { margin: 0; font-weight: 800; color: var(--primary); }
+        .user-greeting { font-weight: 600; color: var(--text-muted); background: #e0e7ff; padding: 8px 16px; border-radius: 20px; }
+
+        /* Store Layout */
+        .layout { display: flex; gap: 30px; align-items: flex-start; }
+        .products { flex: 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .cart { flex: 1; min-width: 300px; background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: sticky; top: 20px; }
+        
+        /* Product Cards */
+        .product-card { background: var(--card-bg); padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; border: 1px solid #f3f4f6; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .product-card h3 { margin: 0 0 5px 0; font-size: 18px; }
+        .product-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+        .price { font-size: 24px; font-weight: 800; margin: 15px 0; color: var(--primary); }
+        
+        /* Buttons */
+        button { background-color: var(--primary); color: white; border: none; padding: 12px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; transition: background 0.2s; font-family: 'Inter'; }
+        button:hover { background-color: var(--primary-hover); }
+        button:disabled { background-color: #9ca3af; cursor: not-allowed; }
+        .btn-success { background-color: #10b981; }
+        .btn-success:hover { background-color: #059669; }
+
+        /* Cart Items */
+        .cart-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; font-weight: 600;}
+        .cart-total { font-size: 20px; font-weight: 800; margin: 20px 0; display: flex; justify-content: space-between; border-top: 2px solid #e5e7eb; padding-top: 20px;}
+        #receipt { margin-top: 20px; padding: 15px; border-radius: 8px; background: #ecfdf5; color: #065f46; display: none; font-size: 13px; font-weight: 600; line-height: 1.5; border: 1px solid #a7f3d0;}
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <div class="login-card">
+            <h2>Welcome to Swift</h2>
+            <p style="color: #6b7280; margin-bottom: 25px; font-size: 14px;">Sign in to access the store</p>
+            
+            <div class="input-group">
+                <label>User ID (e.g., jayanth_123)</label>
+                <input type="text" id="username" placeholder="Enter your ID" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+            
+            <button onclick="handleLogin()">Sign In</button>
+        </div>
+    </div>
+
+    <div id="store-page">
+        <header>
+            <h1>Swift Store</h1>
+            <div class="user-greeting">👤 Hello, <span id="display-name">User</span></div>
+        </header>
+
+        <div class="layout">
+            <div class="products">
+                <div class="product-card">
+                    <h3>MacBook Pro M3</h3>
+                    <p>18GB Memory, 512GB SSD</p>
+                    <div class="price">$2500</div>
+                    <button onclick="addToCart('prod_macbook', 'MacBook Pro M3', 2500)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <h3>Samsung Galaxy Book 4</h3>
+                    <p>16GB Memory, 1TB SSD</p>
+                    <div class="price">$1800</div>
+                    <button onclick="addToCart('prod_samsung', 'Galaxy Book 4', 1800)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <h3>Sony WH-1000XM5</h3>
+                    <p>Noise Cancelling Headphones</p>
+                    <div class="price">$350</div>
+                    <button onclick="addToCart('prod_sony', 'Sony Headphones', 350)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <h3>Keychron K2</h3>
+                    <p>Wireless Mechanical Keyboard</p>
+                    <div class="price">$100</div>
+                    <button onclick="addToCart('prod_keychron', 'Keychron K2', 100)">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="cart">
+                <h2 style="margin-top: 0; font-weight: 800;">Your Cart 🛒</h2>
+                <div id="cart-items">
+                    <p style="color: #9ca3af; font-size: 14px;">Your cart is empty.</p>
+                </div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="total-price">$0</span>
+                </div>
+                <button id="checkout-btn" onclick="submitOrder()" disabled>Checkout Securely</button>
+                <div id="receipt"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = "";
+        let cart = [];
+        let totalAmount = 0;
+
+        // --- 1. Login Logic ---
+        function handleLogin() {
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            if (usernameInput.trim() === "" || passwordInput.trim() === "") {
+                alert("Please enter both a User ID and Password.");
+                return;
+            }
+
+            // Save the user and switch screens
+            currentUser = usernameInput;
+            document.getElementById('display-name').innerText = currentUser;
+            
+            document.getElementById('login-page').style.display = "none";
+            document.getElementById('store-page').style.display = "block";
+        }
+
+        // --- 2. Cart Logic ---
+        function addToCart(productId, name, price) {
+            cart.push({ productId: productId, name: name, price: price, quantity: 1 });
+            totalAmount += price;
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartDiv = document.getElementById('cart-items');
+            if (cart.length === 0) return;
+
+            cartDiv.innerHTML = ""; 
+            cart.forEach(item => {
+                cartDiv.innerHTML += `<div class="cart-item"><span>${item.name}</span><span>$${item.price}</span></div>`;
+            });
+
+            document.getElementById('total-price').innerText = `$${totalAmount}`;
+            document.getElementById('checkout-btn').disabled = false;
+        }
+
+        // --- 3. Java Backend Connection ---
+        async function submitOrder() {
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const receiptDiv = document.getElementById('receipt');
+            
+            checkoutBtn.innerText = "Processing Engine...";
+            checkoutBtn.disabled = true;
+
+            // Notice we are sending the dynamically captured 'currentUser' to Java!
+            const orderPayload = {
+                userId: currentUser, 
+                totalAmount: totalAmount,
+                items: cart
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/checkout/process', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderPayload)
+                });
+
+                const result = await response.json();
+
+                receiptDiv.style.display = "block";
+                receiptDiv.innerHTML = `✅ <b>Payment Verified by Java Engine</b><br><br><b>Buyer ID:</b> ${result.userId}<br><b>MongoDB ID:</b> ${result.id}<br><b>Status:</b> ${result.status}`;
+                
+                checkoutBtn.innerText = "Success";
+                checkoutBtn.classList.add("btn-success");
+                
+                cart = []; 
+                totalAmount = 0;
+                
+            } catch (error) {
+                receiptDiv.style.display = "block";
+                receiptDiv.style.background = "#fee2e2";
+                receiptDiv.style.color = "#991b1b";
+                receiptDiv.style.border = "1px solid #f87171";
+                receiptDiv.innerHTML = "❌ Connection failed. Is the Spring Boot server running?";
+                checkoutBtn.innerText = "Try Again";
+                checkoutBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Ignore Gradle and Build folders
+.gradle/
+build/
+bin/
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.iml
+
+# Ignore compiled classes
+*.class
