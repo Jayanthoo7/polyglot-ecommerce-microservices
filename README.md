@@ -32,17 +32,14 @@ This project demonstrates a distributed approach to e-commerce, separating high-
 ## 🚀 Live Application Demo
 
 ### 1. Secure Authentication
-The entry point of the application featuring a custom-styled login interface.
-![Login Page](Screenshot%202026-03-11%20at%2021.42.56.jpg)
+![Login Page](login.jpg)
 
 ---
 
 ### 2. Product Catalog & Cart Management
-Users can browse high-end tech products and manage their shopping cart in real-time.
-![Storefront](Screenshot%202026-03-11%20at%2021.43.15.jpg)
+![Storefront](storefront.jpg)
 
 ---
 
 ### 3. Java Engine Verification & MongoDB Persistence
-This is the core logic: the Java backend processes the payment and returns a unique MongoDB Object ID to confirm the data is saved.
-![Checkout Success](Screenshot%202026-03-11%20at%2021.43.32.jpg)
+![Checkout Success](success.jpg)
