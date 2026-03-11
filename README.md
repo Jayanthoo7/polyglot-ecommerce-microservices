@@ -32,14 +32,16 @@ This project demonstrates a distributed approach to e-commerce, separating high-
 ## 🚀 Live Application Demo
 
 ### 1. Secure Authentication
-![Login Page](login.jpg)
+<img width="1440" height="900" alt="Screenshot 2026-03-11 at 21 42 56" src="https://github.com/user-attachments/assets/a925ac19-a78c-47c2-aa4f-f8f35f9e753a" />
 
 ---
 
 ### 2. Product Catalog & Cart Management
-![Storefront](storefront.jpg)
+<img width="1440" height="900" alt="Screenshot 2026-03-11 at 21 43 15" src="https://github.com/user-attachments/assets/aed28861-f59a-4e16-98ce-8c332748ec00" />
+
 
 ---
 
 ### 3. Java Engine Verification & MongoDB Persistence
-![Checkout Success](success.jpg)
+<img width="1440" height="900" alt="Screenshot 2026-03-11 at 21 43 32" src="https://github.com/user-attachments/assets/321d3213-c9dd-4e65-8e29-3246d4a8dd9d" />
+
